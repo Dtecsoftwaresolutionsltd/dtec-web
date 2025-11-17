@@ -282,6 +282,23 @@ class HomeController extends Controller
 
         $contact_us = ContactUs::first();
 
+        $offices = [
+            [
+                'name' => 'Rwanda Office',
+                'location' => 'RWANDA: Kubaho Plaza, KG 7 Ave, KIGALI',
+                'email' => $contact_us->email,
+                'phone' => $contact_us->phone,
+                'map_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.518536715672!2d30.12411607495605!3d-1.953398998044234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca6f8f1234567%3A0x8f1b8b8b8b8b8b8b!2sKubaho%20Plaza%2C%20KG%207%20Ave%2C%20Kigali%2C%20Rwanda!5e0!3m2!1sen!2sbd!4v1701237009812!5m2!1sen!2sbd',
+            ],
+            [
+                'name' => 'India Office',
+                'location' => 'SBC-2 Thejaswini Building, Technopark',
+                'email' => $contact_us->email2,
+                'phone' => $contact_us->phone2,
+                'map_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.123456789012!2d76.87936007495605!3d8.55800012345678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bbb8054aaaaa%3A0x3b4a4e4f4f4f4f4f!2sSBC-2%20Thejaswini%20Building%2C%20Technopark%20Campus%2C%20Thiruvananthapuram%2C%20Kerala%20695581!5e0!3m2!1sen!2sbd!4v1701237009812!5m2!1sen!2sbd',
+            ]
+        ];
+
         $seo_setting = SeoSetting::where('id', 4)->first();
         $pageTitle = trans('Contact Us');
         $emailjsPublicKey = env('EMAILJS_PUBLIC_KEY');
@@ -291,6 +308,7 @@ class HomeController extends Controller
 
         return view('contact_us', [
             'contact_us' => $contact_us,
+            'offices' => $offices,
             'seo_setting' => $seo_setting,
             'pageTitle' => $pageTitle,
             'cta_content' => $cta_content,

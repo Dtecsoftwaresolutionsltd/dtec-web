@@ -23,61 +23,81 @@
                     <p class="text-paragraph mt-5">
                         {{ $contact_us?->description }}
                     </p>
-                    <div class="flex flex-col gap-4 mt-6 max-w-[254px] w-full ">
-                        <div class="flex items-start gap-2.5">
-                            <div class=" mt-1">
-                                <span>
-                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="14" cy="14" r="13.4" stroke="#FFE6EA" stroke-width="1.2" />
-                                        <circle cx="14" cy="13.3333" r="2" stroke="#FF002A" />
-                                        <path
-                                            d="M20 13.2592C20 16.532 16.25 20.6666 14 20.6666C11.75 20.6666 8 16.532 8 13.2592C8 9.98644 10.6863 7.33331 14 7.33331C17.3137 7.33331 20 9.98644 20 13.2592Z"
-                                            stroke="#FF002A" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div>
-                                <p class=" text-paragraph ">
-                                    {{ $contact_us?->address }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-2.5">
-                            <div class="mt-1">
-                                <span>
-                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="14" cy="14" r="13.4" stroke="#FFE6EA" stroke-width="1.2" />
-                                        <rect x="7.33203" y="8" width="13.3333" height="12" rx="4" stroke="#FF002A" />
-                                        <path
-                                            d="M8 11L11.4393 13.8661C12.9226 15.1022 15.0774 15.1022 16.5607 13.8661L20 11"
-                                            stroke="#FF002A" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div>
-                                <p class="text-paragraph mt-1">{{ $contact_us?->email }}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-2.5">
-                            <div class="mt-1">
-                                <span>
-                                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="14" cy="14" r="13.4" stroke="#FFE6EA" stroke-width="1.2" />
-                                        <path
-                                            d="M19.25 18.0833V17.1232C19.25 16.6461 18.9596 16.2172 18.5166 16.04L17.33 15.5653C16.7667 15.34 16.1246 15.5841 15.8533 16.1268L15.75 16.3333C15.75 16.3333 14.2917 16.0417 13.125 14.875C11.9583 13.7083 11.6667 12.25 11.6667 12.25L11.8732 12.1467C12.4159 11.8754 12.66 11.2333 12.4346 10.67L11.96 9.48338C11.7828 9.04044 11.3539 8.75 10.8768 8.75H9.91667C9.27233 8.75 8.75 9.27233 8.75 9.91667C8.75 15.0713 12.9287 19.25 18.0833 19.25C18.7277 19.25 19.25 18.7277 19.25 18.0833Z"
-                                            stroke="#FF002A" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
 
+                    @if($offices)
+                        @foreach($offices as $office)
+                            <div class="mt-6 pb-4 border-b border-b-[#FFE6EA]">
+                                <h2 class="font-semibold text-main-black text-[16px] mb-3">
+                                    {{ $office['name'] }}
+                                </h2>
+                                <div class="flex flex-col gap-2 max-w-[300px] w-full">
+                                    <!-- Address -->
+                                    <div class="flex items-start gap-2.5">
+                                        <div class="mt-1">
+                                            <span>
+                                                <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="14" cy="14" r="13.4" stroke="#FFE6EA" stroke-width="1.2" />
+                                                    <circle cx="14" cy="13.3333" r="2" stroke="#FF002A" />
+                                                    <path
+                                                        d="M20 13.2592C20 16.532 16.25 20.6666 14 20.6666C11.75 20.6666 8 16.532 8 13.2592C8 9.98644 10.6863 7.33331 14 7.33331C17.3137 7.33331 20 9.98644 20 13.2592Z"
+                                                        stroke="#FF002A" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <p class="text-paragraph text-sm">
+                                                {{ $office['location'] }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="flex items-start gap-2.5">
+                                        <div class="mt-1">
+                                            <span>
+                                                <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="14" cy="14" r="13.4" stroke="#FFE6EA" stroke-width="1.2" />
+                                                    <rect x="7.33203" y="8" width="13.3333" height="12" rx="4" stroke="#FF002A" />
+                                                    <path
+                                                        d="M8 11L11.4393 13.8661C12.9226 15.1022 15.0774 15.1022 16.5607 13.8661L20 11"
+                                                        stroke="#FF002A" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <p class="text-paragraph text-sm">
+                                                <a href="mailto:{{ $office['email'] }}" class="hover:text-buisness-red transition">
+                                                    {{ $office['email'] }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Phone -->
+                                    <div class="flex items-start gap-2.5">
+                                        <div class="mt-1">
+                                            <span>
+                                                <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="14" cy="14" r="13.4" stroke="#FFE6EA" stroke-width="1.2" />
+                                                    <path
+                                                        d="M19.25 18.0833V17.1232C19.25 16.6461 18.9596 16.2172 18.5166 16.04L17.33 15.5653C16.7667 15.34 16.1246 15.5841 15.8533 16.1268L15.75 16.3333C15.75 16.3333 14.2917 16.0417 13.125 14.875C11.9583 13.7083 11.6667 12.25 11.6667 12.25L11.8732 12.1467C12.4159 11.8754 12.66 11.2333 12.4346 10.67L11.96 9.48338C11.7828 9.04044 11.3539 8.75 10.8768 8.75H9.91667C9.27233 8.75 8.75 9.27233 8.75 9.91667C8.75 15.0713 12.9287 19.25 18.0833 19.25C18.7277 19.25 19.25 18.7277 19.25 18.0833Z"
+                                                        stroke="#FF002A" stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <p class="text-paragraph text-sm">
+                                                <a href="tel:{{ $office['phone'] }}" class="hover:text-buisness-red transition">
+                                                    {{ $office['phone'] }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-paragraph mt-1">{{ $contact_us?->phone }}</p>
-                            </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
 
                     <div class="flex items-center gap-[15px] mt-6 pt-5 border-t border-t-[#FFE6EA]">
                         <h1 class="font-semibold text-18 text-main-black pr-2.5">
@@ -193,11 +213,40 @@
             </div>
             <section class="overflow-hidden mt-10 md:mt-[60px] w-full">
                 <div class="theme-container w-full mx-auto">
-                    <div class="relative w-full h-[240px] sm:h-[450px] mx-auto xl:rounded-lg overflow-hidden bg-red-300">
-                        <iframe src="{{ html_decode($contact_us?->map_code) }}" allowfullscreen="" width="100%"
-                            height="100%" class="map-radius" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
+                    @if($offices)
+                        <h2 class="text-[24px] md:text-[28px] font-semibold text-main-black mb-8">
+                            {{ __('Our Office Locations') }}
+                        </h2>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                            @foreach($offices as $office)
+                                <div class="flex flex-col">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-3 h-3 bg-buisness-red rounded-full"></div>
+                                        <h3 class="text-[16px] md:text-[18px] font-semibold text-main-black">
+                                            {{ $office['name'] }}
+                                        </h3>
+                                    </div>
+                                    <div class="relative w-full h-[300px] md:h-[400px] mx-auto rounded-lg overflow-hidden border border-buisness-red/10 shadow-sm">
+                                        <iframe 
+                                            src="{{ $office['map_embed'] }}" 
+                                            allowfullscreen="" 
+                                            width="100%"
+                                            height="100%" 
+                                            style="border: 0; border-radius: 8px;"
+                                            loading="lazy"
+                                            referrerpolicy="no-referrer-when-downgrade">
+                                        </iframe>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="relative w-full h-[240px] sm:h-[450px] mx-auto xl:rounded-lg overflow-hidden bg-red-300">
+                            <iframe src="{{ html_decode($contact_us?->map_code) }}" allowfullscreen="" width="100%"
+                                height="100%" class="map-radius" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    @endif
                 </div>
             </section>
         </section>
