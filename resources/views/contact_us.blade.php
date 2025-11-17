@@ -209,11 +209,40 @@
             </div>
             <section class="overflow-hidden mt-10 md:mt-[60px] w-full">
                 <div class="theme-container w-full mx-auto">
-                    <div class="relative w-full h-[240px] sm:h-[450px] mx-auto xl:rounded-lg overflow-hidden bg-red-300">
-                        <iframe src="{{ html_decode($contact_us?->map_code) }}" allowfullscreen="" width="100%"
-                            height="100%" class="map-radius" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
+                    @if($offices)
+                        <h2 class="text-[24px] md:text-[28px] font-semibold text-main-black mb-8">
+                            {{ __('Our Office Locations') }}
+                        </h2>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                            @foreach($offices as $office)
+                                <div class="flex flex-col">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-3 h-3 bg-buisness-red rounded-full"></div>
+                                        <h3 class="text-[16px] md:text-[18px] font-semibold text-main-black">
+                                            {{ $office['name'] }}
+                                        </h3>
+                                    </div>
+                                    <div class="relative w-full h-[300px] md:h-[400px] mx-auto rounded-lg overflow-hidden border border-buisness-red/10 shadow-sm">
+                                        <iframe 
+                                            src="{{ $office['map_embed'] }}" 
+                                            allowfullscreen="" 
+                                            width="100%"
+                                            height="100%" 
+                                            style="border: 0; border-radius: 8px;"
+                                            loading="lazy"
+                                            referrerpolicy="no-referrer-when-downgrade">
+                                        </iframe>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="relative w-full h-[240px] sm:h-[450px] mx-auto xl:rounded-lg overflow-hidden bg-red-300">
+                            <iframe src="{{ html_decode($contact_us?->map_code) }}" allowfullscreen="" width="100%"
+                                height="100%" class="map-radius" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    @endif
                 </div>
             </section>
         </section>
