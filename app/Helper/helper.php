@@ -242,7 +242,10 @@ function getPageSections($arr = false)
 
 function getImage($content, $key)
 {
-    return isset($content->data_values['images'][$key]) ? $content->data_values['images'][$key] : '';
+    if (!$content || !isset($content->data_values['images'][$key])) {
+        return '';
+    }
+    return $content->data_values['images'][$key];
 }
 
 function getContent($dataKeys, $singleQuery = false, $limit = null, $orderById = false)
@@ -284,19 +287,19 @@ function getTranslatedValue($content, $key, $lang = 'en')
     if ($lang !== 'en') {
         $translations = json_decode($content->data_translations, true);
 
-
-        // Loop through the translations to find the matching language code
-        foreach ($translations as $translation) {
-            if (isset($translation['language_code']) && $translation['language_code'] === $lang) {
-                // Return the translated value if it exists
-                $decode_value = isset($translation['values'][$key]) ? $translation['values'][$key] : '';
-                return html_decode($decode_value);
+        // Check if translations is an array before looping
+        if (is_array($translations) && !empty($translations)) {
+            // Loop through the translations to find the matching language code
+            foreach ($translations as $translation) {
+                if (isset($translation['language_code']) && $translation['language_code'] === $lang) {
+                    // Return the translated value if it exists
+                    $decode_value = isset($translation['values'][$key]) ? $translation['values'][$key] : '';
+                    return html_decode($decode_value);
+                }
             }
         }
 
-
         // If no translation found for requested language, return default string
-
         $decode_value = isset($content->data_values[$key]) ? $content->data_values[$key] : '';
 
         return html_decode($decode_value);

@@ -28,7 +28,7 @@ class Category extends Model
 
     public function getNameAttribute()
     {
-        return $this->front_translate->name;
+        return $this->front_translate?->name ?? '';
     }
 
     public function services(){
