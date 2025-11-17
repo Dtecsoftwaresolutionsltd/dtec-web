@@ -78,16 +78,16 @@ class Product extends Model
     }
 
     public function getNameAttribute(){
-        return $this->front_translate->name;
+        return $this->front_translate?->name ?? '';
     }
     public function getDescriptionAttribute(){
-        return $this->front_translate->name;
+        return $this->front_translate?->description ?? '';
     }
     public function getSeoTitleAttribute(){
-        return $this->front_translate->name;
+        return $this->front_translate?->seo_title ?? '';
     }
     public function getSeoDescriptionAttribute(){
-        return $this->front_translate->name;
+        return $this->front_translate?->seo_description ?? '';
     }
     public function getReviewCountAttribute(){
         return $this->reviews()->count();
