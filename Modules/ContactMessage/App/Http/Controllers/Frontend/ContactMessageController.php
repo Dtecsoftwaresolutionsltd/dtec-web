@@ -31,20 +31,6 @@ class ContactMessageController extends Controller
         $contact_message->message = $request->message;
         $contact_message->save();
 
-        EmailHelper::mail_setup();
-
-        $setting = GlobalSetting::where('key', 'contact_message_mail')->first();
-
-        $template = EmailTemplate::find(2);
-        $message = $template->description;
-        $subject = $template->subject;
-        $message = str_replace('{{user_name}}',$request->name,$message);
-        $message = str_replace('{{user_email}}',$request->email,$message);
-        $message = str_replace('{{user_phone}}',$request->phone,$message);
-        $message = str_replace('{{message}}',$request->message,$message);
-
-        Mail::to($setting->value)->send(new SendContactMessage($message,$subject, $request->email, $request->name));
-
         $notify_message= trans('Your message has send successfully');
         $notify_message=array('message'=>$notify_message,'alert-type'=>'success');
         return redirect()->back()->with($notify_message);

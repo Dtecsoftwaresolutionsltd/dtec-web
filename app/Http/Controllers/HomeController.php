@@ -284,11 +284,21 @@ class HomeController extends Controller
 
         $seo_setting = SeoSetting::where('id', 4)->first();
         $pageTitle = trans('Contact Us');
+        $emailjsPublicKey = env('EMAILJS_PUBLIC_KEY');
+        $emailjsServiceId = env('EMAILJS_SERVICE_ID');
+        $emailjsTemplateId = env('EMAILJS_TEMPLATE_ID');
+        $contactMessageRecipientEmail = env('CONTACT_MESSAGE_RECIPIENT_EMAIL');
+
         return view('contact_us', [
             'contact_us' => $contact_us,
             'seo_setting' => $seo_setting,
             'pageTitle' => $pageTitle,
             'cta_content' => $cta_content,
+            'emailjsPublicKey' => $emailjsPublicKey,
+            'emailjsServiceId' => $emailjsServiceId,
+            'emailjsTemplateId' => $emailjsTemplateId,
+            'contactMessageRecipientEmail' => $contactMessageRecipientEmail,
+            'storeContactMessageRoute' => route('store-contact-message'), 
         ]);
     }
 

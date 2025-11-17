@@ -141,9 +141,13 @@
                             {{ __('Your email address will not be published. Required fields are marked *') }}
                         </p>
 
-                        <form action="{{ route('store-contact-message') }}" method="POST"
-                            class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <form id="contactForm" class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
                             @csrf
+                            <input type="hidden" id="emailjsPublicKey" value="{{ $emailjsPublicKey }}">
+                            <input type="hidden" id="emailjsServiceId" value="{{ $emailjsServiceId }}">
+                            <input type="hidden" id="emailjsTemplateId" value="{{ $emailjsTemplateId }}">
+                            <input type="hidden" id="contactMessageRecipientEmail" value="{{ $contactMessageRecipientEmail }}">
+                            <input type="hidden" id="storeContactMessageRoute" value="{{ $storeContactMessageRoute }}">
                             <input type="text" placeholder="{{ __('Full Name') }}" name="name" value="{{ old('name') }}"
                                 class=" h-[48px] rounded-lg p-4 focus:outline-none border border-[#F0F0F0] focus:border-main-black bg-[#FAFAFA]" />
                             <input type="text" placeholder="{{ __('Last Name') }}" name="name" value="{{ old('name') }}"
@@ -204,4 +208,6 @@
 @endsection
 @push('script_section')
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
 @endpush
