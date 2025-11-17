@@ -395,6 +395,73 @@ class HomeController extends Controller
         ]);
     }
 
+    public function products(Request $request)
+    {
+        // Use same about section as services to get the same image
+        $digital_transforming_brands = getContent('about_us_digital_transforming_brands.content', true);
+        // Use product-specific content for sections, fallback to service content if not available
+        $product_explore_products = getContent('product_explore_products.content', true) ?? getContent('service_explore_services.content', true);
+        $product_faqs = getContent('product_faqs.content', true) ?? getContent('service_faqs.content', true);
+        $cta_content = getContent('template_1_cta.content', true);
+
+        $product_explores = Listing::where('status', 'enable')->latest()->take(8)->get();
+        if (!$product_explores) {
+            $product_explores = collect();
+        }
+        $seo_setting = SeoSetting::where('id', 10)->first();
+        $pageTitle = trans('Products');
+        $faqs = Faq::latest()->take(4)->get();
+        if (!$faqs) {
+            $faqs = collect();
+        }
+
+        return view('products', [
+            'product_explores' => $product_explores ?: collect(),
+            'seo_setting' => $seo_setting,
+            'pageTitle' => $pageTitle,
+            'faqs' => $faqs ?: collect(),
+            'digital_transforming_brands' => $digital_transforming_brands,
+            'product_explore_products' => $product_explore_products,
+            'product_faqs' => $product_faqs,
+            'cta_content' => $cta_content,
+        ]);
+    }
+
+    public function product(Request $request, $slug)
+    {
+        $cta_content = getContent('template_1_cta.content', true);
+        $blog_adds = getContent('blog_details_add.content', true);
+
+        $product = Listing::where(['status' => 'enable', 'slug' => $slug])->firstOrFail();
+        $categories = Category::with('translate')
+            ->whereIn('id', Listing::where('status', 'enable')->pluck('category_id'))
+            ->where('status', 'enable')
+            ->get();
+        $popular_products = Listing::where('status', 'enable')
+            ->where('id', '!=', $product->id)
+            ->latest()
+            ->take(6)
+            ->get();
+        // Get related products from same category
+        $showProducts = Listing::where('id', '!=', $product->id)
+            ->where('status', 'enable')
+            ->latest()
+            ->take(3)
+            ->get();
+        $seo_setting = SeoSetting::where('id', 10)->first();
+        $pageTitle = trans('Product Details');
+        return view('product_detail', [
+            'pageTitle' => $pageTitle,
+            'seo_setting' => $seo_setting,
+            'product' => $product,
+            'showProducts' => $showProducts,
+            'categories' => $categories,
+            'cta_content' => $cta_content,
+            'blog_adds' => $blog_adds,
+            'popular_products' => $popular_products,
+        ]);
+    }
+
     public function service(Request $request, $slug)
     {
         $cta_content = getContent('template_1_cta.content', true);

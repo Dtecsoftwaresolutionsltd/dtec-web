@@ -29,17 +29,17 @@ class Listing extends Model
     }
     public function getTitleAttribute()
     {
-        return $this->front_translate->title;
+        return $this->front_translate?->title ?? '';
     }
 
     public function getDescriptionAttribute()
     {
-        return $this->front_translate->description;
+        return $this->front_translate?->description ?? '';
     }
 
     public function getShortDescriptionAttribute()
     {
-        return $this->front_translate->short_description;
+        return $this->front_translate?->short_description ?? '';
     }
 
 }
