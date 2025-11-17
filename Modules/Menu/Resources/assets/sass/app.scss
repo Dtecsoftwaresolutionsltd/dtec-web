@@ -1,0 +1,84 @@
+// Menu Module Styles
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    
+    .crancy-btn {
+        margin: 0;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        &.delete_danger_btn {
+            background-color: #dc3545;
+            color: white;
+            
+            &:hover {
+                background-color: #c82333;
+            }
+        }
+    }
+}
+
+// Toggle status checkbox styling
+.toggle-status {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #28a745;
+    
+    &:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+}
+
+// Form styling
+.crancy-form {
+    &--v2 {
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control-static {
+            padding: 0.375rem 0.75rem;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            
+            .card-header {
+                background-color: #f8f9fa;
+                border-bottom: 1px solid #dee2e6;
+                padding: 1rem;
+                
+                .card-title {
+                    margin: 0;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                }
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+        }
+    }
+}

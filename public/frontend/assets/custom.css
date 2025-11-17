@@ -1,0 +1,121 @@
+.custom-heading {
+    font-size: 65px;
+    line-height: 70px;
+    letter-spacing: -0.03em;
+}
+.custom-heading span:first-child {
+    color: #fff;
+    background: linear-gradient(
+        90deg,
+        #794aff 0%,
+        rgba(121, 74, 255, 0.15) 100%
+    );
+    text-transform: uppercase;
+    padding: 0px 10px;
+    margin-left: 5px;
+}
+.custom-heading span:last-child {
+    font-style: italic;
+}
+
+.testimonial_bg {
+    background-image: url(images/testimonial-bg.webp);
+}
+.service_image {
+    height: 350px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.svg-color svg {
+    color: #facc15;
+}
+.fill-yellow {
+    color: #facc15 !important;
+}
+.fill-gray {
+    color: #9ca3af;
+}
+svg.active {
+    color: #ff002a;
+}
+.three-line-limit {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+.custom_style {
+    background: linear-gradient(
+        270deg,
+        #794aff 50%,
+        rgba(121, 74, 255, 0) 90.03%
+    );
+}
+
+.cart-qty-box {
+    width: 50px !important;
+}
+
+.custom-single-product-swiper {
+    --swiper-navigation-color: #fff !important;
+    --swiper-pagination-color: #fff !important;
+}
+
+.inner_layout_footer {
+    background: linear-gradient(90deg, #794aff 0%, #f3f4f9 63.23%) !important;
+}
+
+.remember-me-checkbox {
+    animation-delay: 0.8s !important;
+}
+
+.service-description-line-clamp {
+    -webkit-line-clamp: 3 !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.max_height_none {
+    max-height: none !important;
+}
+
+.custom_swiper_wrapper {
+    transition-duration: 0ms !important;
+    transform: translate3d(-223.333px, 0px, 0px) !important;
+    transition-delay: 0ms !important;
+}
+
+.custom_partner_swiper_slide {
+    width: 173.333px !important;
+    margin-right: 50px !important;
+}
+
+.testimonial-section{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(images/testimonials-home-bg.png);
+}
+
+.testimonial-shape-bg{
+    background: linear-gradient(180deg, rgba(255, 64, 95, 0.05) 0%, rgba(255, 32, 69, 0) 100%);
+
+}
+
+
+@media screen and (max-width: 768px) {
+    .custom-heading {
+        font-size: 54px;
+        line-height: 60px;
+    }
+}
+@media screen and (max-width: 425px) {
+    .custom-heading {
+        font-size: 36px;
+        line-height: 46px;
+    }
+    .inner_layout_footer {
+        background: linear-gradient(90deg, #794aff 0%, #f3f4f9 96.23%) !important;
+    }
+}
