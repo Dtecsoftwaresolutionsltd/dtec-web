@@ -19,21 +19,5 @@ class EmailHelper{
 
         $email_setting = (object) $email_setting;
 
-
-        $setting =  [
-            'transport' => 'smtp',
-            'host' => $email_setting->mail_host,
-            'port' => $email_setting->mail_port,
-            'encryption' => $email_setting->mail_encryption,
-            'username' => $email_setting->smtp_username,
-            'password' => $email_setting->smtp_password,
-            'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN')
-        ];
-
-        config(['mail.mailers.smtp' => $setting]);
-        config(['mail.from.address' => $email_setting->email]);
-        config(['mail.from.name' => $email_setting->sender_name]);
-
     }
 }
