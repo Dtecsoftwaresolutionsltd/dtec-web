@@ -282,10 +282,26 @@ class HomeController extends Controller
 
         $contact_us = ContactUs::first();
 
+        $offices = [
+            [
+                'name' => 'Rwanda Office',
+                'location' => 'RWANDA: Kubaho Plaza, KG 7 Ave, KIGALI',
+                'email' => $contact_us->email,
+                'phone' => $contact_us->phone,
+            ],
+            [
+                'name' => 'India Office',
+                'location' => 'SBC-2 Thejaswini Building, Technopark',
+                'email' => $contact_us->email2,
+                'phone' => $contact_us->phone2,
+            ]
+        ];
+
         $seo_setting = SeoSetting::where('id', 4)->first();
         $pageTitle = trans('Contact Us');
         return view('contact_us', [
             'contact_us' => $contact_us,
+            'offices' => $offices,
             'seo_setting' => $seo_setting,
             'pageTitle' => $pageTitle,
             'cta_content' => $cta_content,
