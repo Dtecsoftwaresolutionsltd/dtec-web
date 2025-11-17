@@ -527,21 +527,30 @@
 
                         <div class="w-fit max-w-[300px]">
                             <div class="max-w-[223px]">
-                                <h1 class="font-semibold text-18 text-white">{{ __('Address') }}</h1>
-                                <div
-                                    class="flex gap-2 items-center relative group font-medium text-white/50 hover:text-white hover:underline transition-all duration-300 mt-3.5">
-                                    <span class="transition-all duration-300">
-                                        {{ $footer?->address }}
-                                    </span>
-                                </div>
-                                <h1 class="font-semibold text-18 text-white mt-6">{{ __('Contact') }}</h1>
-                                <div
-                                    class="flex gap-2 items-center relative group font-medium text-white/50 hover:text-white hover:underline transition-all duration-300 mt-3.5">
-                                    <span class="transition-all duration-300">
-                                        {{ $footer?->email }} <br />
-                                        {{ $footer?->phone }}
-                                    </span>
-                                </div>
+                                @if($offices)
+                                    <h1 class="font-semibold text-18 text-white">{{ __('Address') }}</h1>
+                                    @foreach($offices as $office)
+                                        <div class="flex gap-2 items-center relative group font-medium text-white/50 hover:text-white hover:underline transition-all duration-300 mt-2">
+                                            <span class="transition-all duration-300 text-sm">
+                                                {{ $office['location'] }}
+                                            </span>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <h1 class="font-semibold text-18 text-white">{{ __('Address') }}</h1>
+                                    <div class="flex gap-2 items-center relative group font-medium text-white/50 hover:text-white hover:underline transition-all duration-300 mt-3.5">
+                                        <span class="transition-all duration-300">
+                                            {{ $footer?->address }}
+                                        </span>
+                                    </div>
+                                    <h1 class="font-semibold text-18 text-white mt-6">{{ __('Contact') }}</h1>
+                                    <div class="flex gap-2 items-center relative group font-medium text-white/50 hover:text-white hover:underline transition-all duration-300 mt-3.5">
+                                        <span class="transition-all duration-300">
+                                            {{ $footer?->email }} <br />
+                                            {{ $footer?->phone }}
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="w-fit max-w-[300px]">
