@@ -93,8 +93,8 @@
                 class="py-6 px-4 mx-auto w-full  justify-center items-center transition-all duration-300 ease-in-out flex">
                 <div class="w-full max-w-[1619px] relative flex justify-between items-center">
                     <div class="flex gap-28 items-center">
-                        <a href="{{ route('home') }}">
-                            <img src="{{ asset($general_setting?->home_five_logo ?? $general_setting?->white_logo) }}"
+                    <a href="{{ route('home') }}" class="block w-40 md:w-48">
+                            <img class="w-full h-auto" src="{{ asset($general_setting?->home_five_logo ?? $general_setting?->white_logo) }}"
                                 alt="logo" />
                         </a>
                         <ul class="flex gap-10 text-white text-base leading-5 font-medium font-inter">
@@ -488,7 +488,7 @@
 
                         <div class="w-fit max-w-[300px]">
                             <div class="max-w-[223px]">
-                                @if($offices)
+                                @if(isset($offices) && $offices)
                                     <h1 class="font-semibold text-18 text-white mb-3">{{ __('Address') }}</h1>
                                     @foreach($offices as $office)
                                         <a href="https://maps.google.com/?q={{ urlencode($office['location']) }}" target="_blank" rel="noopener noreferrer"
@@ -498,13 +498,12 @@
                                     @endforeach
                                     <hr class="border-white/10 my-4">
                                 @endif
-                                <h1 class="font-semibold text-18 text-white">{{ __('Contact') }}</h1>
-                                <div class="flex gap-2 items-center relative group font-medium text-white/50 hover:text-white transition-all duration-300 mt-3.5">
-                                    <a href="mailto:{{ $footer?->email }}" class="hover:underline transition-all duration-300">
+                                <h1 class="font-semibold text-18 text-white mt-4">{{ __('Contact') }}</h1>
+                                <div class="flex flex-col gap-1 font-medium text-white/50 mt-2">
+                                    <a href="mailto:{{ $footer?->email }}" class="text-sm hover:text-white hover:underline transition-all duration-300">
                                         {{ $footer?->email }}
                                     </a>
-                                    <br />
-                                    <span>{{ $footer?->phone }}</span>
+                                    <span class="text-sm">{{ $footer?->phone }}</span>
                                 </div>
                             </div>
                         </div>

@@ -86,8 +86,8 @@
                 class="py-6 px-4 mx-auto w-full  justify-center items-center transition-all duration-300 ease-in-out flex">
                 <div class="w-full max-w-[1619px] relative flex justify-between items-center">
                     <div class="flex gap-28 items-center">
-                        <a href="{{ route('home') }}">
-                            <img src="{{ asset($general_setting?->home_five_logo ?? $general_setting?->white_logo) }}"
+                        <a href="{{ route('home') }}" class="block w-40 md:w-48">
+                            <img class="w-full h-auto" src="{{ asset($general_setting?->home_five_logo ?? $general_setting?->white_logo) }}"
                                 alt="logo" />
                         </a>
                         <ul class="flex gap-10 text-white text-base leading-5 font-medium font-inter">
@@ -133,11 +133,11 @@
                         </ul>
                     </div>
 
-                    <div class="xl:flex hidden space-x-4 items-center">
+                    <div class="xl:flex hidden space-x-6 items-center">
                         <form action="{{ route('project.search') }}" method="GET">
 
                             <div
-                                class="flex items-center gap-2 rounded-[100px] bg-[#141417] border border-[#302F31]  px-4 py-2  transition-all duration-300">
+                                class="flex items-center gap-2 h-11 rounded-full bg-[#141417] border border-[#302F31] px-4 transition-all duration-300">
                                 <button type="submit" class="cursor-pointer" for="hh-search" type="button">
                                     <svg class="cursor-pointer" width="17" height="17" viewBox="0 0 17 17" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -147,15 +147,15 @@
                                     </svg>
                                 </button>
                                 <input id="hh-search" type="text" name="query"
-                                    class="outline-none bg-transparent text-white" placeholder="Search..." />
+                                    class="outline-none bg-transparent text-white text-sm md:text-base placeholder:text-white/60" placeholder="Search..." />
 
                             </div>
 
                         </form>
                         <a href={{ !Auth::guard('web')->user() ? route('user.login') : route('user.dashboard') }}>
-                            <div class="home-two-btn-bg py-3   group bg-buisness-red border-buisness-red">
+                            <div class="group inline-flex items-center gap-2 h-11 px-5 rounded-full bg-buisness-red border border-buisness-red text-white shadow-sm hover:bg-white hover:text-buisness-red transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-buisness-red/50">
                                 <span
-                                    class="text-base  text-white group-hover:text-buisness-red transition-all duration-300 font-semibold font-inter relative z-10">
+                                    class="text-sm sm:text-base font-semibold font-inter relative z-10">
                                     @if (!Auth::guard('web')->user())
                                         {{ __('Sign In') }}
                                     @else
@@ -164,8 +164,8 @@
                                 </span>
                                 @if (!Auth::guard('web')->user())
                                     <span
-                                        class="relative z-10  transition-all duration-300 text-white group-hover:text-buisness-red">
-                                        <svg class="" width="14" height="18" viewBox="0 0 14 18" fill="none"
+                                        class="relative z-10 transition-colors duration-300">
+                                        <svg class="w-5 h-5" viewBox="0 0 14 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8.84289 11.625H8.84961M5.09961 11.625H5.10633" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

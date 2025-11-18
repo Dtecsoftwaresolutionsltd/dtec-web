@@ -14,6 +14,7 @@
             <div class="row row__bscreen">
                 <div class="col-12">
                     <div class="crancy-body">
+                        @php($theme_setting = $general_setting->selected_theme ?? null)
                         <!-- Dashboard Inner -->
                         <div class="crancy-dsinner">
                             <div class="crancy-personals mg-top-30">
@@ -253,7 +254,7 @@
                                                                                                 <input
                                                                                                     class="crancy__item-input"
                                                                                                     type="text"
-                                                                                                    value="{{ $general_setting->contact_message_mail }}"
+                                                                                                    value="{{ data_get($general_setting, 'contact_message_mail', '') }}"
                                                                                                     name="contact_message_mail">
                                                                                             </div>
                                                                                         </div>
@@ -2427,14 +2428,6 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="col-12">
-                                                                                            <div class="row">
-                                                                                                <div class="col-md-4">
-                                                                                                    <div
-                                                                                                        class="crancy__item-form--group mg-top-20">
                                                                                                         <label
                                                                                                             class="crancy__item-label">{{ __('Website White Logo') }}</label>
                                                                                                         <div
@@ -2556,51 +2549,35 @@
                                                                                                                     id="home-six-footer-img"
                                                                                                                     autocomplete="off"
                                                                                                                     onchange="homeSixFooterImage(event)">
-                                                                                                                <label
-                                                                                                                    class="crancy-image-video-upload__label"
-                                                                                                                    for="home-six-footer-img">
-                                                                                                                    <img id="home_six_footer_logo"
-                                                                                                                        src="{{ asset($general_setting->home_six_footer_logo) }}"
-                                                                                                                        class="home2_explore_img">
-                                                                                                                    <h4
-                                                                                                                        class="crancy-image-video-upload__title">
+                                                                                                                    <label
+                                                                                                                        class="crancy-image-video-upload__label"
+                                                                                                                        for="home-six-footer-img">
+                                                                                                                        <img id="home_six_footer_logo"
+                                                                                                                            src="{{ asset(data_get($general_setting, 'home_six_footer_logo', 'backend/img/logo-white.png')) }}"
+                                                                                                                            class="home2_explore_img">
+                                                                                                                        <h4
+                                                                                                                            class="crancy-image-video-upload__title">
                                                                                                                         {{ __('Click here to') }}
                                                                                                                         <span
                                                                                                                             class="crancy-primary-color">{{ __('Choose File') }}</span>
                                                                                                                         {{ __('and upload') }}
                                                                                                                     </h4>
                                                                                                                 </label>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        @endif
-
-                                                                                        <div class="col-12">
-                                                                                            <div class="row">
-                                                                                                <div class="col-md-4">
-                                                                                                    <div
-                                                                                                        class="crancy__item-form--group mg-top-20">
-                                                                                                        <label
-                                                                                                            class="crancy__item-label">{{ __('Footer Logo') }}</label>
-                                                                                                        <div
-                                                                                                            class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                                                                            <input
-                                                                                                                type="file"
-                                                                                                                class="btn-check"
-                                                                                                                name="footer_logo"
-                                                                                                                id="input-img-footer"
-                                                                                                                autocomplete="off"
-                                                                                                                onchange="footerLogo(event)">
-                                                                                                            <label
-                                                                                                                class="crancy-image-video-upload__label"
-                                                                                                                for="input-img-footer">
-                                                                                                                <img id="view_footer_img"
-                                                                                                                    src="{{ asset($general_setting->footer_logo) }}"
-                                                                                                                    class="home2_explore_img">
-                                                                                                                <h4
-                                                                                                                    class="crancy-image-video-upload__title">
+                                                                                                                <input
+                                                                                                                    type="file"
+                                                                                                                    class="btn-check"
+                                                                                                                    name="footer_logo"
+                                                                                                                    id="input-img-footer"
+                                                                                                                    autocomplete="off"
+                                                                                                                    onchange="footerLogo(event)">
+                                                                                                                <label
+                                                                                                                    class="crancy-image-video-upload__label"
+                                                                                                                    for="input-img-footer">
+                                                                                                                    <img id="view_footer_img"
+                                                                                                                        src="{{ asset(data_get($general_setting, 'footer_logo', 'backend/img/logo-white.png')) }}"
+                                                                                                                        class="home2_explore_img">
+                                                                                                                    <h4
+                                                                                                                        class="crancy-image-video-upload__title">
                                                                                                                     {{ __('Click here to') }}
                                                                                                                     <span
                                                                                                                         class="crancy-primary-color">{{ __('Choose File') }}</span>
@@ -2613,6 +2590,7 @@
                                                                                             </div>
                                                                                         </div>
 
+                                                                                        @endif
                                                                                         <div class="col-12">
                                                                                             <div class="row">
                                                                                                 <div class="col-md-4">
@@ -2874,7 +2852,7 @@
                                                                                                         class="crancy__item-switch">
                                                                                                         <input
                                                                                                             name="status"
-                                                                                                            {{ $general_setting->google_analytic_status == 1 ? 'checked' : '' }}
+                                                                                                            {{ (data_get($general_setting, 'google_analytic_status', 0) == 1) ? 'checked' : '' }}
                                                                                                             type="checkbox">
                                                                                                         <span
                                                                                                             class="crancy__item-switch--slide crancy__item-switch--round"></span>
@@ -2889,18 +2867,11 @@
                                                                                                 <label
                                                                                                     class="crancy__item-label">{{ __('Analytic Id') }}
                                                                                                 </label>
-                                                                                                <input
-                                                                                                    class="crancy__item-input"
-                                                                                                    type="text"
-                                                                                                    name="analytic_id"
-                                                                                                    value="{{ $general_setting->google_analytic_id }}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class=" mg-top-40">
+                                                                                                    <input
+                                                                                                        class="crancy__item-input"
+                                                                                                        type="text"
+                                                                                                        name="analytic_id"
+                                                                                                        value="{{ data_get($general_setting, 'google_analytic_id', '') }}">
                                                                                 <button class="crancy-btn"
                                                                                     type="submit">{{ __('Update') }}</button>
                                                                             </div>
@@ -2938,7 +2909,7 @@
                                                                                                         class="crancy__item-switch">
                                                                                                         <input
                                                                                                             name="status"
-                                                                                                            {{ $general_setting->pixel_status == 1 ? 'checked' : '' }}
+                                                                                                            {{ (data_get($general_setting, 'pixel_status', 0) == 1) ? 'checked' : '' }}
                                                                                                             type="checkbox">
                                                                                                         <span
                                                                                                             class="crancy__item-switch--slide crancy__item-switch--round"></span>
@@ -2948,24 +2919,6 @@
                                                                                         </div>
 
                                                                                         <div class="col-12">
-                                                                                            <div
-                                                                                                class="crancy__item-form--group mg-top-form-20">
-                                                                                                <label
-                                                                                                    class="crancy__item-label">{{ __('Pixel App Id') }}
-                                                                                                </label>
-                                                                                                <input
-                                                                                                    class="crancy__item-input"
-                                                                                                    type="text"
-                                                                                                    name="app_id"
-                                                                                                    value="{{ $general_setting->pixel_app_id }}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class=" mg-top-40">
-                                                                                <button class="crancy-btn"
                                                                                     type="submit">{{ __('Update') }}</button>
                                                                             </div>
                                                                         </div>

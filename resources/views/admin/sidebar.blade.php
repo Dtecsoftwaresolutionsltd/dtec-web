@@ -1084,6 +1084,6 @@
     </div>
     <!-- End Nav Menu -->
     <!-- Support Card -->
-    <p class=" crancy-ybcolor mg-top-20">{{ __('Version') }} : {{ $general_setting->app_version }}</p>
+    <p class=" crancy-ybcolor mg-top-20">{{ __('Version') }} : {{ data_get($general_setting, 'app_version', '1.0.0') }}</p>
     <!-- End Support Card -->
 </div>

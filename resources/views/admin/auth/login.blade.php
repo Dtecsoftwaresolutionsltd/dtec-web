@@ -13,7 +13,7 @@
     <title>{{ __('Login') }}</title>
 
     <!-- Fav Icon -->
-    <link rel="icon" href="{{ asset($general_setting->favicon) }}">
+    <link rel="icon" href="{{ asset(data_get($general_setting, 'favicon', 'backend/img/logo-white.png')) }}">
 
     <!--  Stylesheet -->
     <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css') }}">
@@ -38,14 +38,14 @@
                 <div class="crancy-wc__form--middle">
                     <div class="crancy-wc__banner crancy-bg-cover">
                         <div class="crancy-wc__banner--img w-100 h-100">
-                            <img src="{{ asset($general_setting->admin_login) }}" alt="#" class="w-100 h-100">
+                            <img src="{{ asset(data_get($general_setting, 'admin_login', 'backend/img/credential-bg.svg')) }}" alt="#" class="w-100 h-100">
                         </div>
 
                     </div>
                     <div class="crancy-wc__form-inner-flex">
                         <div class="crancy-wc__form-inner">
                             <div class="crancy-wc__logo">
-                                <a href="{{ route('home') }}"><img src="{{ asset($general_setting->logo) }}"
+                                <a href="{{ route('home') }}"><img src="{{ asset(data_get($general_setting, 'logo', 'backend/img/logo-white.png')) }}"
                                         alt="#"></a>
                             </div>
 

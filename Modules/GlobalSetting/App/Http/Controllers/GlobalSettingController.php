@@ -70,8 +70,48 @@ class GlobalSettingController extends Controller
      */
     public function general_setting()
     {
-        $theme_setting = GlobalSetting::where('key', 'selected_theme')->first();
-        return view('globalsetting::index',compact('theme_setting'));
+        // Collect all settings into an associative array
+        $settings = [];
+        foreach (GlobalSetting::get() as $item) {
+            $settings[$item->key] = $item->value;
+        }
+
+        // Ensure all keys used in the Blade exist with safe defaults
+        $expectedKeys = [
+            'selected_theme' => 'all_theme',
+            'app_name' => '',
+            'preloader_status' => 'disable',
+            'contact_message_mail' => '',
+            'timezone' => 'UTC',
+            'logo' => '',
+            'white_logo' => '',
+            'home_five_logo' => '',
+            'home_six_logo' => '',
+            'home_six_footer_logo' => '',
+            'footer_logo' => '',
+            'favicon' => '',
+            'recaptcha_status' => 0,
+            'recaptcha_site_key' => '',
+            'recaptcha_secret_key' => '',
+            'tawk_status' => 0,
+            'tawk_chat_link' => '',
+            'google_analytic_status' => 0,
+            'google_analytic_id' => '',
+            'pixel_status' => 0,
+            'pixel_app_id' => '',
+            'openai_api_key' => '',
+            'openai_organization' => '',
+        ];
+
+        foreach ($expectedKeys as $key => $default) {
+            if (!array_key_exists($key, $settings)) {
+                $settings[$key] = $default;
+            }
+        }
+
+        $general_setting = (object) $settings;
+
+        return view('globalsetting::index', compact('general_setting'));
     }
 
     public function update_general_setting(GeneralSettingRequest $request)
@@ -126,11 +166,7 @@ class GlobalSettingController extends Controller
         if($request->logo){
             $old_logo = $logo_setting->value;
             $image = $request->logo;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'logo-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'logo-');
             $logo_setting->value = $logo_name;
             $logo_setting->save();
             if($old_logo){
@@ -143,11 +179,7 @@ class GlobalSettingController extends Controller
         if($request->white_logo){
             $old_logo = $white_logo_setting->value;
             $image = $request->white_logo;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'white_logo-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'white_logo-');
             $white_logo_setting->value = $logo_name;
             $white_logo_setting->save();
             if($old_logo){
@@ -155,18 +187,14 @@ class GlobalSettingController extends Controller
             }
         }
 
-        if($theme_setting->selected_theme == 'business_consulting'){
+        if($theme_setting->value == 'business_consulting'){
 
             $home_five_logo_setting = GlobalSetting::where('key', 'home_five_logo')->first();
 
             if($request->home_five_logo){
                 $old_logo = $home_five_logo_setting?->value;
                 $image = $request->home_five_logo;
-                $ext = $image->getClientOriginalExtension();
-                $logo_name = 'home_five_logo-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-                $logo_name = 'uploads/website-images/'.$logo_name;
-                $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+                $logo_name = $this->storeImageOrFile($image, 'home_five_logo-');
                 $home_five_logo_setting->value = $logo_name;
                 $home_five_logo_setting->save();
                 if($old_logo){
@@ -176,18 +204,14 @@ class GlobalSettingController extends Controller
             }
         }
 
-        if($theme_setting->selected_theme == 'it_business'){
+        if($theme_setting->value == 'it_business'){
 
             $home_six_logo_setting = GlobalSetting::where('key', 'home_six_logo')->first();
 
             if($request->home_six_logo){
                 $old_logo = $home_six_logo_setting?->value;
                 $image = $request->home_six_logo;
-                $ext = $image->getClientOriginalExtension();
-                $logo_name = 'home_five_logo-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-                $logo_name = 'uploads/website-images/'.$logo_name;
-                $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+                $logo_name = $this->storeImageOrFile($image, 'home_six_logo-');
                 $home_six_logo_setting->value = $logo_name;
                 $home_six_logo_setting->save();
                 if($old_logo){
@@ -196,18 +220,14 @@ class GlobalSettingController extends Controller
             }
         }
 
-        if($theme_setting->selected_theme == 'it_business'){
+        if($theme_setting->value == 'it_business'){
 
             $home_six_footer_logo_setting = GlobalSetting::where('key', 'home_six_footer_logo')->first();
 
             if($request->home_six_footer_logo){
                 $old_logo = $home_six_footer_logo_setting?->value;
                 $image = $request->home_six_footer_logo;
-                $ext = $image->getClientOriginalExtension();
-                $logo_name = 'home_five_logo-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-                $logo_name = 'uploads/website-images/'.$logo_name;
-                $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+                $logo_name = $this->storeImageOrFile($image, 'home_six_footer_logo-');
                 $home_six_footer_logo_setting->value = $logo_name;
                 $home_six_footer_logo_setting->save();
                 if($old_logo){
@@ -221,11 +241,7 @@ class GlobalSettingController extends Controller
         if($request->footer_logo){
             $old_logo = $footer_logo_setting->value;
             $image = $request->footer_logo;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'footer-logo-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'footer-logo-');
             $footer_logo_setting->value = $logo_name;
             $footer_logo_setting->save();
             if($old_logo){
@@ -238,11 +254,7 @@ class GlobalSettingController extends Controller
         if($request->favicon){
             $old_favicon = $logo_setting->value;
             $favicon = $request->favicon;
-            $ext = $favicon->getClientOriginalExtension();
-            $favicon_name = 'favicon-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $favicon_name = 'uploads/website-images/'.$favicon_name;
-            Image::make($favicon)
-                    ->save(public_path().'/'.$favicon_name);
+            $favicon_name = $this->storeImageOrFile($favicon, 'favicon-');
             $logo_setting->value = $favicon_name;
             $logo_setting->save();
             if($old_favicon){
@@ -429,11 +441,7 @@ class GlobalSettingController extends Controller
         if($request->error_image){
             $old_logo = $setting->value;
             $image = $request->error_image;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'error-image-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'error-image-');
             $setting->value = $logo_name;
             $setting->save();
 
@@ -463,11 +471,7 @@ class GlobalSettingController extends Controller
         if($request->login_page_bg){
             $old_logo = $setting->value;
             $image = $request->login_page_bg;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'login-bg-image-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'login-bg-image-');
             $setting->value = $logo_name;
             $setting->save();
 
@@ -498,11 +502,7 @@ class GlobalSettingController extends Controller
         if($request->admin_login){
             $old_logo = $setting->value;
             $image = $request->admin_login;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'admin-bg-image-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'admin-bg-image-');
             $setting->value = $logo_name;
             $setting->save();
 
@@ -533,11 +533,7 @@ class GlobalSettingController extends Controller
         if($request->breadcrumb_image){
             $old_logo = $setting->value;
             $image = $request->breadcrumb_image;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'breadcrumb-image-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'breadcrumb-image-');
             $setting->value = $logo_name;
             $setting->save();
 
@@ -595,11 +591,7 @@ class GlobalSettingController extends Controller
         if($request->default_avatar){
             $old_logo = $setting->value;
             $image = $request->default_avatar;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'avatar-image-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'avatar-image-');
             $setting->value = $logo_name;
             $setting->save();
 
@@ -630,11 +622,7 @@ class GlobalSettingController extends Controller
         if($request->maintenance_image){
             $old_logo = $setting->value;
             $image = $request->maintenance_image;
-            $ext = $image->getClientOriginalExtension();
-            $logo_name = 'maintenance-image-'.date('Y-m-d-h-i-s-').rand(999,9999).'.'.$ext;
-            $logo_name = 'uploads/website-images/'.$logo_name;
-            $logo = Image::make($image)
-                    ->save(public_path().'/'.$logo_name);
+            $logo_name = $this->storeImageOrFile($image, 'maintenance-image-');
             $setting->value = $logo_name;
             $setting->save();
 
@@ -745,4 +733,39 @@ class GlobalSettingController extends Controller
         return redirect()->back()->with($notify_message);
     }
 
+    /**
+     * Store an uploaded image or SVG to public/uploads/website-images and return the relative path.
+     * SVGs are moved directly (no GD). Raster images use Intervention Image.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @param  string $prefix
+     * @return string relative path like 'uploads/website-images/filename.ext'
+     */
+    private function storeImageOrFile($file, $prefix = 'file-')
+    {
+        $ext = strtolower($file->getClientOriginalExtension());
+        $dir = public_path('uploads/website-images');
+
+        if (!File::exists($dir)) {
+            File::makeDirectory($dir, 0755, true);
+        }
+
+        $filename = $prefix . date('Y-m-d-h-i-s-') . rand(999, 9999) . '.' . $ext;
+        $relativePath = 'uploads/website-images/' . $filename;
+
+        // Move SVG directly (GD can't handle SVG)
+        if ($ext === 'svg') {
+            $file->move($dir, $filename);
+            return $relativePath;
+        }
+
+        // For supported raster types, use Intervention Image. Fallback to move if any issue.
+        try {
+            Image::make($file)->save(public_path('/' . $relativePath));
+        } catch (\Throwable $e) {
+            $file->move($dir, $filename);
+        }
+
+        return $relativePath;
+    }
 }

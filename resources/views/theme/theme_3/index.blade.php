@@ -25,8 +25,10 @@
     @include('components.preloder')
 
     <header class="bg-main-black sticky top-0 z-50 flex-col items-center hidden xl:flex">
-        <img src="{{ asset(home3_header_shape_image()) }}" alt="" class="absolute -bottom-14 z-30 anim-light-shadow" />
-
+    <a href="{{ route('home') }}" class="block w-40 md:w-48">
+                            <img class="w-full h-auto" src="{{ asset($general_setting?->home_five_logo ?? $general_setting?->white_logo) }}"
+                                alt="logo" />
+                        </a>
         <div class="theme-container mx-auto w-full">
 
             <div

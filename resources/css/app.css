@@ -203,13 +203,24 @@
     @apply w-1/2 flex relative flex-1 gap-6 min-w-[300px];
 }
 .course-description ul li {
-    @apply before:min-w-[18px] before:min-h-[18px] before:w-[18px] before:h-[18px]  before:aspect-square before:rounded-full before:overflow-hidden before:bg-purple before:flex before:justify-center before:flex-col before:items-center before:content-[url('/assets/images/course/tick.png')] before:mt-1.5 text-paragraph;
+    @apply before:min-w-[18px] before:min-h-[18px] before:w-[18px] before:h-[18px]  before:aspect-square before:rounded-full before:overflow-hidden before:bg-purple before:flex before:justify-center before:flex-col before:items-center before:mt-1.5 text-paragraph;
+    /* Use existing tick asset instead of missing /assets/images/course/tick.png */
+    /* Tailwind cannot generate url() content via @apply, so keep a direct CSS fallback below */
+}
+/* Fallback pseudo-element content for tick icon */
+.course-description ul li::before {
+    content: url('/frontend/assets/images/tick.svg');
 }
 .course-description ol {
     @apply mt-4;
 }
 .course-description ol li {
-    @apply before:content-[url('/assets/images/course/arrow-right.png')] before:mt-2  text-paragraph flex items-center gap-2;
+    /* Replace missing arrow-right.png with a simple unicode arrow fallback */
+    @apply before:mt-2  text-paragraph flex items-center gap-2;
+}
+.course-description ol li::before {
+    content: '➜';
+    margin-right: 6px;
 }
 /* misc */
 .dropdown-deActive {

@@ -1,6 +1,6 @@
  <section class="w-full py-3 relative overflow-hidden bg-white">
             <!-- background  -->
-            <img src="{{ asset(getImage($hero_image, 'thumb_image')) }}" alt=""
+            <img src="{{ getImageOrPlaceholder(getImage($hero_image, 'thumb_image'), '1600x600') }}" alt=""
                 class="w-full object-cover absolute top-0 z-0 buisness-dark-black xl:min-h-[520px] sm:min-h-[570px] min-h-[580px]" />
             <!-- content  -->
 
@@ -156,7 +156,7 @@
                         class="px-6 py-5 sm:px-[50px] col-span-4 sm:py-10 bg-white rounded-[20px] group shadow-card">
                         <div
                             class="sm:p-5 p-3.5 rounded-full bg-buisness-red/5 transition-all duration-300 ease-out  w-fit">
-                            <img src="{{ asset($service_item?->theme_5_thumbnail_image) }}" alt="" class="sm:w-[45px] sm:h-[45px] w-[30px] h-[30px] object-contain">
+                            <img src="{{ getImageOrPlaceholder($service_item?->theme_5_thumbnail_image, '90x90') }}" alt="" class="sm:w-[45px] sm:h-[45px] w-[30px] h-[30px] object-contain">
                         </div>
                         <a href="{{ route('service', $service_item?->slug) }}">
                             <h1 class="text-22 text-main-black font-semibold pt-6">
