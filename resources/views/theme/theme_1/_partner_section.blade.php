@@ -8,7 +8,7 @@
                  @foreach ($partners as $partner)
                      <div class="swiper-slide client-item flex justify-center">
                          <a href="{{ $partner->link }}" aria-label="partner">
-                             <img src="{{ asset($partner->logo) }}" alt="" />
+                             <img src="{{ asset($partner->logo) }}" alt="" class="w-24 h-24 object-contain" />
                          </a>
                      </div>
                  @endforeach

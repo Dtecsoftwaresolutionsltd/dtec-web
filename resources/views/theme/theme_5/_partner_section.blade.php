@@ -10,7 +10,7 @@
                             @foreach ($partners as $partner)
                             <div class="swiper-slide">
                                <div class="w-full flex justify-center">
-                                 <img src="{{ asset($partner?->logo) }}" alt="" />
+                                 <img src="{{ asset($partner?->logo) }}" alt="" class="w-24 h-24 object-contain" />
                                </div>
                             </div>
                             @endforeach

@@ -9,12 +9,12 @@
                      <!-- Slides -->
                      @foreach ($partners as $partner)
                          <div class="swiper-slide">
-                             <img src="{{ asset($partner->logo) }}" alt="" />
+                             <img src="{{ asset($partner->logo) }}" alt="" class="w-24 h-24 object-contain" />
                          </div>
                      @endforeach
                      @foreach ($partners as $partner)
                          <div class="swiper-slide">
-                             <img src="{{ asset($partner->logo) }}" alt="" />
+                             <img src="{{ asset($partner->logo) }}" alt="" class="w-24 h-24 object-contain" />
                          </div>
                      @endforeach
                  </div>

@@ -2,7 +2,7 @@
     <div class="theme-container mx-auto w-screen flex items-center">
         <div class="flex gap-5 lg:gap-[154px] w-full flex-col items-center lg:flex-row">
             <p class="w-full lg:max-w-[176px] text-base font-semibold text-main-black text-center lg:text-start">
-                {{ __('We’ve more then 1250+ global clients') }}
+                {{ __('We’ve more then 50+ global clients') }}
             </p>
 
             <!-- Slider main container -->
@@ -13,7 +13,7 @@
                         <!-- Slides -->
                         @foreach ($partners as $partner)
                         <div class="swiper-slide">
-                            <img src="{{ asset($partner->logo) }}" alt="" />
+                            <img src="{{ asset($partner->logo) }}" alt="" class="w-24 h-24 object-contain" />
                         </div>
                         @endforeach
 
