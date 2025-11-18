@@ -74,7 +74,7 @@
                         @foreach ($partners as $partner)
                             <div class="swiper-slide swiper-slide-prev" role="group"
                                 aria-label="4 / 7" data-swiper-slide-index="3">
-                                <img src="{{ asset($partner->home_four_icon ?? $partner->logo) }}" alt="" />
+                                <img src="{{ asset($partner->home_four_icon ?? $partner->logo) }}" alt="" class="w-24 h-24 object-contain" />
                             </div>
                         @endforeach
 
