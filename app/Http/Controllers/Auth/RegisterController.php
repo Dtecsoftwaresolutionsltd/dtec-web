@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Modules\EmailSetting\App\Models\EmailTemplate;
+use GuzzleHttp\Client;
+use Exception;
 
 class RegisterController extends Controller
 {
@@ -81,21 +83,45 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'verification_token' => Str::random(100),
         ]);
-        EmailHelper::mail_setup();
-        
-        $verification_link = route('user.register-verification').'?verification_link='.$user->verification_token.'&email='.$user->email;
-        $verification_link = '<a href="'.$verification_link.'">'.$verification_link.'</a>';
-        $template=EmailTemplate::where('id',4)->first();
-        $subject=$template->subject;
-        $message=$template->description;
-        $message = str_replace('{{user_name}}',$request->name,$message);
-        $message = str_replace('{{varification_link}}',$verification_link,$message);
-        Mail::to($user->email)->send(new UserRegistration($message,$subject,$user));
 
+        try {
+            $client = new Client();
+            $verification_link = route('user.register-verification').'?verification_link='.$user->verification_token.'&email='.$user->email;
 
-        $notify_message = trans('Account created successful, a verification link has been send to your mail, please verify it');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->back()->with($notify_message);
+            $params = [
+                'service_id' => env('EMAILJS_SERVICE_ID'),
+                'template_id' => env('EMAILJS_WELCOME_TEMPLATE_ID'),
+                'user_id' => env('EMAILJS_PUBLIC_KEY'),
+                'accessToken' => env('EMAILJS_PRIVATE_KEY'),
+                'template_params' => [
+                    'user_name' => $request->name,
+                    'user_email' => $request->email,
+                    'verification_link' => $verification_link,
+                ]
+            ];
+
+            $response = $client->post('https://api.emailjs.com/api/v1.0/email/send', [
+                'json' => $params
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+                $notify_message = trans('Account created successful, a verification link has been send to your mail, please verify it');
+                $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+                return redirect()->back()->with($notify_message);
+            } else {
+                // Log error or handle failed email sending
+                \Log::error('EmailJS API call failed with status: ' . $response->getStatusCode() . ' and body: ' . $response->getBody());
+                $notify_message = trans('Account created, but failed to send verification email. Please contact support.');
+                $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+                return redirect()->back()->with($notify_message);
+            }
+        } catch (Exception $e) {
+            // Log exception
+            \Log::error('EmailJS API call failed with exception: ' . $e->getMessage());
+            $notify_message = trans('Account created, but failed to send verification email. Please contact support.');
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+            return redirect()->back()->with($notify_message);
+        }
 
     }
 

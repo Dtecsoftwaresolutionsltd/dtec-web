@@ -91,6 +91,12 @@
                           </button>
                         </div>
                       </div>
+                      @if ($general_setting->recaptcha_status == 1)
+                      <div class="col-span-full">
+                        <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}"></div>
+                      </div>
+                      @endif
+
                       <div class="col-span-full">
                         <button type="submit" class="sign_up_btn w-full">
                           <div
@@ -174,6 +180,7 @@
 @endsection
 
 @push('script_section')
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script>
     function togglePasswordVisibility(input, button) {
       // Toggle password visibility
