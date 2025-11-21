@@ -13,6 +13,8 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Modules\EmailSetting\App\Models\EmailTemplate;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
+use GuzzleHttp\Client;
+use Exception;
 
 class LoginController extends Controller
 {
@@ -158,41 +160,48 @@ class LoginController extends Controller
 
         $this->validate($request, $rules, $custom_error);
 
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-
         $user = User::where('email', $request->email)->first();
 
         if($user){
-
-            EmailHelper::mail_setup();
-
             $user->forget_password_token = Str::random(100);
             $user->save();
 
             $reset_link = route('user.reset-password').'?token='.$user->forget_password_token.'&email='.$user->email;
-            $reset_link = '<a href="'.$reset_link.'">'.$reset_link.'</a>';
 
-            $template = EmailTemplate::where('id',1)->first();
-            $subject = $template->subject;
-            $message = $template->description;
-            $message = str_replace('{{user_name}}',$user->name,$message);
-            $message = str_replace('{{reset_link}}',$reset_link,$message);
-            Mail::to($user->email)->send(new UserForgetPassword($message,$subject,$user));
-            \Log::info('Password Reset Email Details:', [
-                'to' => $user->email,
-                'subject' => $subject,
-                'message' => $message,
-                'reset_link' => $reset_link,
-                'user_name' => $user->name
-            ]);
+            try {
+                $client = new Client();
+                $params = [
+                    'service_id' => env('EMAILJS_SERVICE_ID'),
+                    'template_id' => env('EMAILJS_PASSWORD_RESET_TEMPLATE_ID'), // New template ID for password reset
+                    'user_id' => env('EMAILJS_PUBLIC_KEY'),
+                    'accessToken' => env('EMAILJS_PRIVATE_KEY'),
+                    'template_params' => [
+                        'user_name' => $user->name,
+                        'user_email' => $user->email,
+                        'reset_link' => $reset_link,
+                    ]
+                ];
 
+                $response = $client->post('https://api.emailjs.com/api/v1.0/email/send', [
+                    'json' => $params
+                ]);
 
-            $notify_message= trans('A password reset link has been send to your mail');
-            $notify_message = array('message'=>$notify_message,'alert-type'=>'success');
-            return redirect()->back()->with($notify_message);
+                if ($response->getStatusCode() == 200) {
+                    $notify_message= trans('A password reset link has been send to your mail');
+                    $notify_message = array('message'=>$notify_message,'alert-type'=>'success');
+                    return redirect()->back()->with($notify_message);
+                } else {
+                    \Log::error('EmailJS API call failed for password reset with status: ' . $response->getStatusCode() . ' and body: ' . $response->getBody());
+                    $notify_message = trans('Failed to send password reset email. Please contact support.');
+                    $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+                    return redirect()->back()->with($notify_message);
+                }
+            } catch (Exception $e) {
+                \Log::error('EmailJS API call failed for password reset with exception: ' . $e->getMessage());
+                $notify_message = trans('Failed to send password reset email. Please contact support.');
+                $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+                return redirect()->back()->with($notify_message);
+            }
 
         }else{
             $notify_message = trans('Email not found');
