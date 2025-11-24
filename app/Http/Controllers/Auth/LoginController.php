@@ -171,21 +171,20 @@ class LoginController extends Controller
             try {
                 $client = new Client();
                 $params = [
-                    'service_id' => env('EMAILJS_SERVICE_ID'),
-                    'template_id' => env('EMAILJS_PASSWORD_RESET_TEMPLATE_ID'), // New template ID for password reset
-                    'user_id' => env('EMAILJS_PUBLIC_KEY'),
-                    'accessToken' => env('EMAILJS_PRIVATE_KEY'),
+                    'service_id' => env('EMAILJS_SERVICE_ID_FORGOT_PASSWORD'),
+                    'template_id' => env('EMAILJS_TEMPLATE_ID_FORGOT_PASSWORD'),
+                    'user_id' => env('EMAILJS_PUBLIC_KEY_FORGOT_PASSWORD'),
+                    'accessToken' => env('EMAILJS_PRIVATE_KEY_FORGOT_PASSWORD'),
                     'template_params' => [
                         'user_name' => $user->name,
-                        'user_email' => $user->email,
-                        'reset_link' => $reset_link,
-                    ]
-                ];
-
-                $response = $client->post('https://api.emailjs.com/api/v1.0/email/send', [
-                    'json' => $params
-                ]);
-
+                                            'email' => $request->email,
+                                            'link' => $reset_link,
+                                            ]
+                                        ];
+                        
+                                        $response = $client->post('https://api.emailjs.com/api/v1.0/email/send', [
+                                            'json' => $params
+                                        ]);
                 if ($response->getStatusCode() == 200) {
                     $notify_message= trans('A password reset link has been send to your mail');
                     $notify_message = array('message'=>$notify_message,'alert-type'=>'success');
