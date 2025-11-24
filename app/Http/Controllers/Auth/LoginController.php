@@ -257,14 +257,9 @@ class LoginController extends Controller
 
     public function redirect_to_google(){
 
-        $gmail_client_id = GlobalSetting::where('key', 'gmail_client_id')->first();
-        $gmail_secret_id = GlobalSetting::where('key', 'gmail_secret_id')->first();
-        $gmail_redirect_url = GlobalSetting::where('key', 'gmail_redirect_url')->first();
-
-
-        \Config::set('services.google.client_id', $gmail_client_id->value);
-        \Config::set('services.google.client_secret', $gmail_secret_id->value);
-        \Config::set('services.google.redirect', $gmail_redirect_url->value);
+        \Config::set('services.google.client_id', env('GOOGLE_CLIENT_ID'));
+        \Config::set('services.google.client_secret', env('GOOGLE_CLIENT_SECRET'));
+        \Config::set('services.google.redirect', env('GOOGLE_REDIRECT_URI'));
 
         return Socialite::driver('google')->redirect();
 
@@ -272,14 +267,9 @@ class LoginController extends Controller
 
     public function google_callback(){
 
-        $gmail_client_id = GlobalSetting::where('key', 'gmail_client_id')->first();
-        $gmail_secret_id = GlobalSetting::where('key', 'gmail_secret_id')->first();
-        $gmail_redirect_url = GlobalSetting::where('key', 'gmail_redirect_url')->first();
-
-
-        \Config::set('services.google.client_id', $gmail_client_id->value);
-        \Config::set('services.google.client_secret', $gmail_secret_id->value);
-        \Config::set('services.google.redirect', $gmail_redirect_url->value);
+        \Config::set('services.google.client_id', env('GOOGLE_CLIENT_ID'));
+        \Config::set('services.google.client_secret', env('GOOGLE_CLIENT_SECRET'));
+        \Config::set('services.google.redirect', env('GOOGLE_REDIRECT_URI'));
 
         $user = Socialite::driver('google')->user();
         $user = $this->create_user($user,'google');
