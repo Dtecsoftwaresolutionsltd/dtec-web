@@ -289,26 +289,18 @@ class LoginController extends Controller
 
     public function redirect_to_facebook(){
 
-        $facebook_client_id = GlobalSetting::where('key', 'facebook_client_id')->first();
-        $facebook_secret_id = GlobalSetting::where('key', 'facebook_secret_id')->first();
-        $facebook_redirect_url = GlobalSetting::where('key', 'facebook_redirect_url')->first();
-
-        \Config::set('services.facebook.client_id', $facebook_client_id->value);
-        \Config::set('services.facebook.client_secret', $facebook_secret_id->value);
-        \Config::set('services.facebook.redirect', $facebook_redirect_url->value);
+        \Config::set('services.facebook.client_id', env('FACEBOOK_CLIENT_ID'));
+        \Config::set('services.facebook.client_secret', env('FACEBOOK_CLIENT_SECRET'));
+        \Config::set('services.facebook.redirect', env('FACEBOOK_REDIRECT_URI'));
 
         return Socialite::driver('facebook')->redirect();
     }
 
     public function facebook_callback(){
 
-        $facebook_client_id = GlobalSetting::where('key', 'facebook_client_id')->first();
-        $facebook_secret_id = GlobalSetting::where('key', 'facebook_secret_id')->first();
-        $facebook_redirect_url = GlobalSetting::where('key', 'facebook_redirect_url')->first();
-
-        \Config::set('services.facebook.client_id', $facebook_client_id->value);
-        \Config::set('services.facebook.client_secret', $facebook_secret_id->value);
-        \Config::set('services.facebook.redirect', $facebook_redirect_url->value);
+        \Config::set('services.facebook.client_id', env('FACEBOOK_CLIENT_ID'));
+        \Config::set('services.facebook.client_secret', env('FACEBOOK_CLIENT_SECRET'));
+        \Config::set('services.facebook.redirect', env('FACEBOOK_REDIRECT_URI'));
 
         $user = Socialite::driver('facebook')->user();
         $user = $this->create_user($user,'facebook');
